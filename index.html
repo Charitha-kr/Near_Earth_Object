@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orrery Web App: Near-Earth Objects</title>
+    <style>
+       body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #000; /* Optional: background color */ 
+        }
+        #controls { position: absolute; top: 20px; left: 20px; z-index: 100; }
+        button { margin: 5px; }
+        .title {
+        text-align: center; /* Center the text */
+        position: absolute; /* Allow positioning on top */
+        top: 10px; /* Distance from top of the page */
+        left: 50%; /* Center the element horizontally */
+        transform: translateX(-50%); /* Adjust position to center */
+        }
+
+        h1 {
+        font-size: 36px; /* Adjust font size as necessary */
+        margin: 0;
+        color: #f2f2f2; /* Remove default margin */
+        }
+        #toggleButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        /* Dropdown (table) container */
+        #dropdownContainer {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            width: 800px;
+            border: 1px solid #ddd;
+            display: none; /* Hidden initially */
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border-radius: 5px;
+        }
+
+        /* Table styles */
+        #neoTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #neoTable th, #neoTable td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 14px;
+        }
+        #neoTable th {
+            background-color: #f2f2f2;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="title">
+        <h1>Orrery Webapp To Display Neo</h1>
+    </div>
+    <button id="toggleButton" onclick="toggleDropdown()">Show NEO Properties</button>
+
+    <!-- Dropdown container -->
+    <div id="dropdownContainer">
+        <table id="neoTable">
+            <caption>NEO Properties</caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Diameter (m)</th>
+                    <th>Eccentricity</th>
+                    <th>Inclination (°)</th>
+                    <th>Relative Velocity (km/s)</th> <!-- New Column -->
+                    <th>Orbiting Body</th>
+                    <th>PHA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- NEO data will be inserted here dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Function to toggle the dropdown's visibility
+        function toggleDropdown() {
+            const dropdownContainer = document.getElementById('dropdownContainer');
+            const toggleButton = document.getElementById('toggleButton');
+
+            if (dropdownContainer.style.display === 'none' || dropdownContainer.style.display === '') {
+                dropdownContainer.style.display = 'block';
+                toggleButton.textContent = 'Hide NEO Properties';
+            } else {
+                dropdownContainer.style.display = 'none';
+                toggleButton.textContent = 'Show NEO Properties';
+            }
+        }
+
+        // Sample JavaScript function to dynamically add NEOs to the table
+        function addNEOToTable(neoData) {
+            const tableBody = document.querySelector('#neoTable tbody');
+
+            // Clear the table first (optional, based on whether you want to keep previous entries)
+            tableBody.innerHTML = '';
+
+            // Loop through each NEO and insert its data into the table
+            neoData.forEach(neo => {
+                const row = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = neo.name;
+                row.appendChild(nameCell);
+
+                const diameterCell = document.createElement('td');
+                diameterCell.textContent = neo.estimated_diameter_meters; // Diameter in meters
+                row.appendChild(diameterCell);
+
+                const eccentricityCell = document.createElement('td');
+                eccentricityCell.textContent = neo.eccentricity;
+                row.appendChild(eccentricityCell);
+
+                const inclinationCell = document.createElement('td');
+                inclinationCell.textContent = neo.inclination;
+                row.appendChild(inclinationCell);
+
+                const velocityCell = document.createElement('td'); // New Relative Velocity cell
+                velocityCell.textContent = neo.relative_velocity;
+                row.appendChild(velocityCell);
+
+                const orbitingBodyCell = document.createElement('td');
+                orbitingBodyCell.textContent = neo.orbiting_body;
+                row.appendChild(orbitingBodyCell);
+
+                const phaCell = document.createElement('td');
+                phaCell.textContent = neo.is_potentially_hazardous ? 'Yes' : 'No';
+                row.appendChild(phaCell);
+
+                // Append the row to the table body
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+    <div id="controls">
+        <br>
+        <br>
+        <button id="zoomIn">Zoom In</button>
+        <button id="zoomOut">Zoom Out</button>
+        <button id="toggleOrbits">Toggle Orbits</button>
+        <button id="resetPositions">Reset NEO Positions</button>
+        <br>
+        <button id="increaseSpeed">Increase Speed</button>
+        <button id="decreaseSpeed">Decrease Speed</button>
+        <button id="loadMoreNEOs">Load More NEOs</button>
+        <button id="previousNEOs">Previous NEOs</button>
+    </div>
+   
+    <script type="module" src="three.module.min.js"></script>
+    <script type="module" src="orbitcontrols.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
