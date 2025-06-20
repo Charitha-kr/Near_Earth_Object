@@ -85,7 +85,8 @@ npm start
 
 ## 🤝 Contributing
 
-![Screenshot 2025-06-17 163846](https://github.com/user-attachments/assets/720bce67-3082-4070-95d2-7f602553a6cd)
+![image](https://github.com/user-attachments/assets/3138a028-7b4e-414b-b3cc-d5ffc25cc73a)
+
 Contributions, bug reports, and feature suggestions are welcome! Please open an issue or submit a pull request.
 
 ---
